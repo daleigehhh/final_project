@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<robot>
+
+    <link name="world"/>
+
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base"/>
+    </joint>
+
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/arm</robotNamespace>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+    </gazebo>
+
+    <gazebo reference="base">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <gazebo reference="arm_base">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="lower_arm0">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="lower_arm">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="mid_arm">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="upper_arm">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+    <gazebo reference="gripper_base">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/White</material>
+    </gazebo>
+
+    <gazebo reference="left_gripper0">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="right_gripper0">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="left_gripper1">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <gazebo reference="right_gripper1">
+        <mu1>0.2</mu1>
+        <mu2>0.2</mu2>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <transmission name="base_to_arm_base_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="base_to_arm_base_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="base_to_arm_base">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="lower_arm0_to_lower_arm_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="lower_arm0_to_lower_arm_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="lower_arm0_to_lower_arm">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="lower_arm_to_mid_arm_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="lower_arm_to_mid_arm_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="lower_arm_to_mid_arm">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="mid_arm_to_upper_arm_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="mid_arm_to_upper_arm_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="mid_arm_to_upper_arm">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="upper_arm_to_gripper_base_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="upper_arm_to_gripper_base_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="upper_arm_to_gripper_base">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="gripper_base_to_left_gripper0_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="gripper_base_to_left_gripper0_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="gripper_base_to_left_gripper0">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="gripper_base_to_right_gripper0_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="gripper_base_to_right_gripper0_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="gripper_base_to_right_gripper0">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="left_gripper_part2_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="left_gripper_part2_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="left_gripper_part2">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+    <transmission name="right_gripper_part2_tran">
+        <type>transmission_interface/SimpleTransmission</type>
+        <actuator name="right_gripper_part2_motor">
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+        <joint name="right_gripper_part2">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+    </transmission>
+
+</robot>

@@ -1,0 +1,2 @@
+rrbot:ur5_with_gripper
+-DCATKIN_DEVEL_PREFIX=/home/leiyunfei/project_ws/devel -DCMAKE_INSTALL_PREFIX=/home/leiyunfei/project_ws/install -G Unix Makefiles

@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm">
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="blue">
+        <color rgba="0 0 1 1" />
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1" />
+    </material>
+
+    <material name="yellow">
+        <color rgba="0 1 1 1" />
+    </material>
+
+    <material name="green">
+        <color rgba="0 1 0 1" />
+    </material>
+    
+    <xacro:property name="pi" value="3.1415" />
+    <xacro:property name="velocity" value="0.5" />
+
+    <xacro:macro name="cylinder_inertial_matrix" params="mass radius length">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="${0.0833333*mass*(30.5*radius*radius+length*length)}" ixy="0" ixz="0"
+                    iyy="${0.0833333*mass*(3*radius*radius+length*length)}" iyz="0"
+                    izz="${0.5*mass*radius*radius}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial_matrix" params="mass length width height">
+        <inertial>
+            <mass value="${mass}" />
+            <inertia ixx="${0.0833333*mass*(width*width+height*height)}" ixy="0" ixz="0"
+                    iyy="${0.0833333*mass*(length*length+height*height)}" iyz="0"
+                    izz="${0.0833333*mass*(width*width+height*height)}" />
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="robot_arm0">
+        <link name="base">
+            <visual>
+                <geometry>
+                    <box size="2 2 1" />
+                </geometry>
+                <material name="black" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="2 2 1" />
+                </geometry>
+            </collision>
+            <xacro:box_inertial_matrix mass="30" length="2" width="2" height="1" />
+        </link>
+
+        <link name="arm_base">
+            <visual>
+                <geometry>
+                    <cylinder length="0.01" radius="0.2" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.005" />
+                <material name="green" />
+            </visual>
+            <collision>
+                <geometry>
+                    <cylinder length="0.01" radius="0.2" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.005" />
+            </collision>
+            <xacro:cylinder_inertial_matrix mass="0.001" radius="0.2" length="0.01" />
+        </link>
+
+        <joint name="base_to_arm_base" type="revolute">
+            <parent link="base" />
+            <child link="arm_base" />
+            <origin rpy="0 0 0" xyz="0 0 0.5" />
+            <axis xyz="0 0 1" />
+            <limit effort="1000" lower="${-1*pi}" upper="${pi}" velocity="${velocity}" /> 
+        </joint>
+
+        <link name="lower_arm0">
+            <visual>
+                <geometry>
+                    <box size="0.4 0.4 0.4" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.2" />
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.4 0.4" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.2" />
+            </collision>
+            <xacro:box_inertial_matrix mass="0.4" length="0.4" width="0.4" height="0.4" />
+        </link>
+
+        <joint name="arm_base_to_lower_arm0" type="fixed">
+            <parent link="arm_base" />
+            <child link="lower_arm0" />
+            <origin rpy="0 0 0" xyz="0 0 0.005" />
+        </joint>
+
+        <link name="lower_arm">
+            <visual>
+                <geometry>
+                    <box size="0.4 0.4 2" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="-0.2 0 0.8" />
+                <material name="blue" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.4 2" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="-0.2 0 0.8" />
+            </collision>
+            <xacro:box_inertial_matrix mass="2" length="0.4" width="0.4" height="2" />
+        </link>
+
+        <joint name="lower_arm0_to_lower_arm" type="revolute">
+            <parent link="lower_arm0" />
+            <child link="lower_arm" />
+            <origin rpy="0 0 0" xyz="-0.2 0 0.2" />
+            <limit effort="1000" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+        </joint>
+
+        <link name="mid_arm">
+            <visual>    
+                <geometry>  
+                    <box size="0.4 0.4 1.5" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0.2 0 0.55" />
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>  
+                    <box size="0.4 0.4 1.5" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0.2 0 0.55" />
+            </collision>
+            <xacro:box_inertial_matrix mass="1.5" length="0.4" width="0.4" height="1.5" />
+        </link>
+
+        <joint name="lower_arm_to_mid_arm" type="revolute">
+            <parent link="lower_arm" />
+            <child link="mid_arm" />
+            <origin rpy="0 0 0" xyz="0 0 1.6" />
+            <limit effort="800" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+        </joint>
+
+        <link name="upper_arm">
+            <visual>
+                <geometry>
+                    <box size="0.4 0.4 1" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="-0.2 0 0.3" />
+                <material name="blue" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.4 1" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="-0.2 0 0.3" />
+            </collision>
+            <xacro:box_inertial_matrix mass="1" length="0.4" width="0.4" height="1" />
+        </link>
+
+        <joint name="mid_arm_to_upper_arm" type="revolute">
+            <parent link="mid_arm" />
+            <child link="upper_arm" />
+            <origin rpy="0 0 0" xyz="0 0 1.1" />
+            <limit effort="600" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+         </joint>
+
+        <link name="gripper_base">  
+            <visual>
+                <geometry>
+                    <box size="0.4 0.4 0.4" />
+                </geometry>
+                <material name="white" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.4 0.4" />
+                </geometry>
+            </collision>
+            <box_inertial_matrix mass="0.4" length="0.4" width="0.4" height="0.4" /> 
+        </link>
+
+        <joint name="upper_arm_to_gripper_base" type="revolute">
+            <parent link="upper_arm" />
+            <child link="gripper_base" />
+            <origin rpy="0 0 0" xyz="-0.2 0 1" />
+            <axis xyz="0 0 1" />
+            <limit effort="500" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+        </joint>
+
+        <link name="left_gripper0">
+            <visual>
+                <geometry>
+                    <box size="0.4 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.2 -0.1 0" rpy="0 0 0.523598775" />
+                <material name="green" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.2 -0.1 0" rpy="0 0 0.523598775" />
+            </collision>
+            <box_inertial_matrix mass="0.1" length="0.4" width="0.05" height="0.2" />
+        </link>
+
+        <joint name="gripper_base_to_left_gripper0" type="revolute">
+            <parent link="gripper_base" />
+            <child link="left_gripper0" />
+            <origin rpy="0 0 0" xyz="-0.2 0 0" />
+            <axis xyz="0 0 1" />
+            <limit effort="2000" lower="0" upper="1" velocity="${velocity}" />
+        </joint>
+
+        <link name="right_gripper0">
+            <visual>
+                <geometry>
+                    <box size="0.4 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.2 0.1 0" rpy="0 0 -0.523598775" />
+                <material name="green" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.4 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.2 0.1 0" rpy="0 0 -0.523598775" />
+            </collision>
+            <xacro:box_inertial_matrix mass="0.1" length="0.4" width="0.05" height="0.2" />
+        </link>
+
+        <joint name="gripper_base_to_right_gripper0" type="revolute">
+            <parent link="gripper_base" />
+            <child link="right_gripper0" />
+            <origin rpy="0 0 0" xyz="-0.2 0 0" />
+            <axis xyz="0 0 1" />
+            <limit effort="2000" lower="-1" upper="0" velocity="${velocity}" />
+        </joint>
+
+        <link name="left_gripper1">
+            <visual>
+                <geometry>
+                    <box size="0.2 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.1 0 0" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.2 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.1 0 0" />
+            </collision>
+            <xacro:box_inertial_matrix mass="0.08" length="0.2" width="0.05" height="0.2" />
+        </link>
+
+        <joint name="left_gripper_part2" type="revolute">
+            <parent link="left_gripper0" />
+            <child link="left_gripper1" />
+            <origin rpy="0 0 0" xyz="-0.346410161 -0.2 0" />
+            <axis xyz="0 0 1" />
+            <limit effort="1500" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+        </joint>
+
+        <link name="right_gripper1">
+            <visual>
+                <geometry>
+                    <box size="0.2 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.1 0 0" />
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.2 0.05 0.2" />
+                </geometry>
+                <origin xyz="-0.1 0 0" />
+            </collision>
+            <xacro:box_inertial_matrix mass="0.08" length="0.2" width="0.05" height="0.2" />
+        </link>
+
+        <joint name="right_gripper_part2" type="revolute">
+            <parent link="right_gripper0" />
+            <child link="right_gripper1" />
+            <origin rpy="0 0 0" xyz="-0.346410161 0.2 0" />
+            <axis xyz="0 0 -1" />
+            <limit effort="1500" lower="${-0.5*pi}" upper="${0.5*pi}" velocity="${velocity}" />
+        </joint>
+    </xacro:macro>
+
+    <xacro:include filename="$(find rrbot)/urdf/arm1.gazebo" />
+
+</robot>

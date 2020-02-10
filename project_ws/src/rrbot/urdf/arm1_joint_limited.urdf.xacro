@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find rrbot)/urdf/arm1.urdf.xacro" />
+  <!-- arm -->
+  <xacro:robot_arm0 />
+
+</robot>
