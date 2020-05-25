@@ -1,0 +1,48 @@
+arm:
+  joint_state_controller:
+    type:  joint_state_controller/JointStateController
+    publish_rate:  50
+
+  rotation_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  rotation_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  lower_joint_position_controller:
+    type:  position_controllers/JointPositionController  
+    joint: lower_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+  
+  mid_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  mid_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  upper_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  upper_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  wrist1_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  wrist1_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  wrist2_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  wrist2_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  wrist3_joint_position_controller:
+    type:  position_controllers/JointPositionController
+    joint:  wrist3_joint
+    pid:  {p: 100.0, i: 0.01, d: 10.0}
+
+  gripper_controller:
+    type: position_controllers/GripperActionController
+    joint: robotiq_85_left_knuckle_joint
+    action_monitor_rate: 20
+    goal_tolerance: 0.002
+    max_effort: 100
+    stall_velocity_threshold: 0.001
+    stall_timeout: 1.0

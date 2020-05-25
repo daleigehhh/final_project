@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+    <rosparam file="$(find rrbot)/config/gripper.yaml" command="load" />
+
+    <node name="gripper_controller_spawner" pkg="controller_manager" type="spawner"
+          respawn="false" output="screen" ns="/arm" args="gripper_controller --shutdown-timeout 0.5" />
+          
+</launch>

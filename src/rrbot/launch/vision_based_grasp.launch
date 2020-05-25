@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+    <node name="judge_manager" type="judge_server.py" pkg="rrbot" output="screen" />
+    <node name="vision_manager" type="cv_process.py" pkg="rrbot" />
+    <node name="grasp_demo" type="grasp_demo.py" pkg="rrbot" output='screen' />
+
+</launch>

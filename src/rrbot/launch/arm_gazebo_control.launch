@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+    <include file="$(find rrbot)/launch/arm2.gazebo.launch" />
+
+    <include file="$(find rrbot)/launch/arm_trajectory_controller.launch" />
+
+        <!-- Robot state publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+        <param name="publish_frequency" type="double" value="50.0" />
+        <param name="tf_prefix" type="string" value="" />
+    </node>
+
+</launch>

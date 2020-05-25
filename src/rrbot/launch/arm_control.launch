@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+    <rosparam file="$(find rrbot)/config/arm_position_control.yaml" command="load" />
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+            output="screen" ns="/arm" args="joint_state_controller
+                                          rotation_joint_position_controller
+                                          lower_joint_position_controller
+                                          mid_joint_position_controller
+                                          upper_joint_position_controller
+                                          wrist1_joint_position_controller
+                                          wrist2_joint_position_controller
+                                          wrist3_joint_position_controller
+                                          gripper_controller" />
+
+</launch>

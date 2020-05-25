@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+    <robot name="arm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+        <xacro:macro name="boxes" params="called x y z">
+            <link name="${called}">
+                <visual>
+                    <geometry>
+                        <box size="${x} ${y} ${z}" />
+                    </geometry>
+                </visual>
+                <collision>
+                    <geometry>
+                        <box size="${x} ${y} ${z}" />
+                    </geometry>
+                </collision>
+            </link>
+        </xacro:macro>
+
+        <xacro:boxes called="base" x="2" y="2" z="1" />
+
+        <link name="arm_base">
+            <visual>
+                <geometry>
+                    <cylinder length="0.01" radius="0.2" />
+                </geometry>
+                <origin rpy="0 0 0" xyz="0 0 0.005" />
+            </visual>
+        </link>
+
+        <joint name="base_to_arm_base" type="continuous">
+            <parent link="base" />
+            <child link="arm_base" />
+            <origin rpy="0 0 0" xyz="0 0 0.5" />
+            <axis xyz="0 0 1" />
+        </joint>
+
+    </robot>

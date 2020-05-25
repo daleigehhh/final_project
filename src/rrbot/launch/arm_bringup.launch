@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- load URDF file -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find rrbot)/urdf/arm2.xacro" />
+
+    <!-- launch Gazebo -->
+    <include file="$(find rrbot)/launch/arm2.gazebo.launch" />
+
+    <!-- ros_control trajectory control arm2 launch file-->
+    <include file="$(find rrbot)/launch/arm_trajectory_controller.launch" />
+
+    <!-- arm joint states controller launch file -->
+    <include file="$(find rrbot)/launch/arm_gazebo_states.launch" />
+
+    <!-- moveit launch file -->
+    <include file="$(find moveit_config)/launch/moveit_planning_execution.launch" /> 
+
+    
+
+</launch>
